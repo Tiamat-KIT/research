@@ -1,34 +1,37 @@
-# Get started with a build env with Rust nightly
-FROM rustlang/rust:nightly-alpine as builder
+FROM rust:alpine3.18 as builder
+WORKDIR /build
 
 RUN apk update && \
-    apk add --no-cache bash curl npm libc-dev binaryen
-    # protoc openssl-dev protobuf-dev gcc git g++ libc-dev make binaryen
+    apk upgrade --no-cache && \
+    apk add pkgconfig libressl musl-dev 
 
-RUN npm install -g sass
-
-RUN curl --proto '=https' --tlsv1.2 -LsSf https://github.com/leptos-rs/cargo-leptos/releases/download/0.2.5/cargo-leptos-installer.sh | sh
-
-# Add the WASM target
+RUN rustup default nightly
 RUN rustup target add wasm32-unknown-unknown
 
-WORKDIR /work
+RUN cargo install --locked cargo-leptos
+
 COPY . .
 
-RUN cargo leptos build --release -vv
+RUN cargo leptos build --release
 
-FROM rustlang/rust:nightly-alpine as runner
+FROM alpine:3.18 AS runner
+WORKDIR /var/www/app
 
-WORKDIR /app
+RUN addgroup -S server && \
+	adduser -S www-data -G server && \
+	chown -R www-data:server /var/www/app
 
-COPY --from=builder /work/target/release/build /app/
-COPY --from=builder /work/target/site /app/site
-COPY --from=builder /work/Cargo.toml /app/
+COPY --chown=www-data:server --from=builder /build/target/server/release/research ./server/research
+COPY --chown=www-data:server --from=builder /build/target/front/wasm32-unknown-unknown/release/research.wasm ./front/research.wasm
+COPY --chown=www-data:server --from=builder /build/target/site ./site
 
-EXPOSE $PORT
-ENV LEPTOS_SITE_ROOT=./site
+USER www-data
 
-COPY --from=builder /app ./
-RUN chmod +x ./app
+ENV LEPTOS_OUTPUT_NAME "research"
+ENV LEPTOS_SITE_ROOT "/var/www/app/site"
+ENV LEPTOS_ENV "PROD"
+ENV LEPTOS_SITE_ADDR "0.0.0.0:3000"
 
-CMD ["/app"]
+EXPOSE 3000
+
+CMD ["./server/portfolio"]
