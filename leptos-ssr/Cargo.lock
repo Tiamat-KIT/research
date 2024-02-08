@@ -1195,6 +1195,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "leptos-ssr"
+version = "0.1.0"
+dependencies = [
+ "actix-files",
+ "actix-web",
+ "console_error_panic_hook",
+ "http 0.2.11",
+ "leptos",
+ "leptos_actix",
+ "leptos_meta",
+ "leptos_router",
+ "wasm-bindgen",
+]
+
+[[package]]
 name = "leptos_actix"
 version = "0.6.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1861,21 +1876,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "71fe3824f5629716b1589be05dacd749f6aa084c87e00e016714a8cdfccc997c"
 dependencies = [
  "bytecheck",
-]
-
-[[package]]
-name = "research-leptos-ssr"
-version = "0.1.0"
-dependencies = [
- "actix-files",
- "actix-web",
- "console_error_panic_hook",
- "http 0.2.11",
- "leptos",
- "leptos_actix",
- "leptos_meta",
- "leptos_router",
- "wasm-bindgen",
 ]
 
 [[package]]

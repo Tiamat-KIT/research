@@ -3,15 +3,6 @@ use leptos_meta::*;
 use leptos_router::*;
 
 #[component]
-pub fn Header() -> impl IntoView {
-    view! {
-        <nav>
-            <h1>"Reserch App"</h1>
-        </nav>
-    }
-}
-
-#[component]
 pub fn App() -> impl IntoView {
     // Provides context that manages stylesheets, titles, meta tags, etc.
     provide_meta_context();
@@ -19,7 +10,7 @@ pub fn App() -> impl IntoView {
     view! {
         // injects a stylesheet into the document <head>
         // id=leptos means cargo-leptos will hot-reload this stylesheet
-        <Stylesheet id="leptos" href="/pkg/research-leptos-ssr.css"/>
+        <Stylesheet id="leptos" href="/pkg/leptos-ssr.css"/>
 
         // sets the document title
         <Title text="Welcome to Leptos"/>
@@ -33,20 +24,6 @@ pub fn App() -> impl IntoView {
                 </Routes>
             </main>
         </Router>
-        <Script>
-            {"
-            const video = document.getElementById('video')
-            navigator.mediaDevices.getUserMedia({
-                video: true,
-                audio: false,
-            }).then(stream => {
-                video.srcObject = stream;
-                video.play()
-            }).catch(error => {
-                console.log(error)
-            })
-            "}
-        </Script>
     }
 }
 
@@ -54,14 +31,12 @@ pub fn App() -> impl IntoView {
 #[component]
 fn HomePage() -> impl IntoView {
     // Creates a reactive value to update the button
-    /* let (count, set_count) = create_signal(0);
-    let on_click = move |_| set_count.update(|count| *count += 1); */
+    let (count, set_count) = create_signal(0);
+    let on_click = move |_| set_count.update(|count| *count += 1);
 
     view! {
-        <Header />
         <h1>"Welcome to Leptos!"</h1>
-        /* <button on:click=on_click>"Click Me: " {count}</button> */
-        <video id="video"></video>
+        <button on:click=on_click>"Click Me: " {count}</button>
     }
 }
 
