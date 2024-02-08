@@ -33,5 +33,4 @@ ENV LEPTOS_ENV "PROD"
 ENV LEPTOS_SITE_ADDR "0.0.0.0:3000"
 
 EXPOSE 3000
-
-CMD ["./server/portfolio"]
+CMD ["./server/research"]
