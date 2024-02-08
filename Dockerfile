@@ -28,4 +28,7 @@ COPY --from=builder /work/Cargo.toml /app/
 EXPOSE $PORT
 ENV LEPTOS_SITE_ROOT=./site
 
+COPY --from=builder /app ./
+RUN chmod +x ./app
+
 CMD ["/app"]
