@@ -17,6 +17,10 @@ cargo leptos new --git leptos-rs/start
 
 [introducing-cargo-leptos](https://book.leptos.dev/ssr/21_cargo_leptos.html#introducing-cargo-leptos)
 
+## デプロイについて。
+公式が示してるデプロイ用Dockerfileは
+現在の仕様とちょこちょこ違ってるのかうまくいってないみたいなので、それを解析して調整する
+
 ## Leptos付属のコンポーネントについて
 
 ---
