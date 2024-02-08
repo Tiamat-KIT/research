@@ -21,7 +21,7 @@ FROM rustlang/rust:nightly-alpine as runner
 
 WORKDIR /app
 
-COPY --from=builder /work/target/release/Research /app/
+COPY --from=builder /work/target/release/research-leptos-ssr /app/
 COPY --from=builder /work/target/site /app/site
 COPY --from=builder /work/Cargo.toml /app/
 
